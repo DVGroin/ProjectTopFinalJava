@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель | Главная</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container my-5">
+    <h2 class="fw-bold mb-4">🎛️ Панель управления системой</h2>
+
+    <!-- Ссылки на подмодули админки в зависимости от уровня -->
+    <div class="btn-group mb-4 shadow-sm">
+        <a href="/admin/dashboard" class="btn btn-outline-primary">Все Бронирования</a>
+        <a th:if="${currentUser.adminLevel <= 2}" href="/admin/users" class="btn btn-outline-primary">Пользователи</a>
+        <a th:if="${currentUser.adminLevel <= 2}" href="/admin/zones" class="btn btn-outline-primary">Игровые зоны</a>
+        <a href="/admin/games" class="btn btn-outline-primary">Каталог игр</a>
+        <a href="/admin/menu" class="btn btn-outline-primary">Меню столовой (Lvl 3)</a>
+        <a href="/admin/news" class="btn btn-primary active">Управление новостями (Lvl 3)</a>
+    </div>
+
+
+    <div th:if="${#lists.isEmpty(bookings)}" class="alert alert-secondary text-center">Заявок на бронирование пока нет.</div>
+
+    <div th:unless="${#lists.isEmpty(bookings)}" class="table-responsive border rounded bg-body shadow-sm">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Пользователь</th>
+                <th>Объект бронирования</th>
+                <th>Ивент/Компания</th>
+                <th>Время сессии</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td th:text="${b.id}"></td>
+                <td th:text="${b.user.username}"></td>
+                <td class="fw-bold" th:text="${b.game != null ? '🎮 ' + b.game.title : '🚪 ' + b.gameZone.name}"></td>
+                <td th:text="${b.groupEvent != null ? b.groupEvent.name : 'Индивидуально'}"></td>
+                <td th:text="${#temporals.format(b.startTime, 'dd.MM.yyyy HH:mm') + ' (' + b.durationHours + ' ч.)'}"></td>
+                <td>
+                    <span class="badge" th:classappend="${b.status == 'NEW' ? 'bg-primary' : (b.status == 'IN_PROGRESS' ? 'bg-warning text-dark' : (b.status == 'COMPLETED' ? 'bg-success' : 'bg-danger'))}" th:text="${b.status}"></span>
+                </td>
+                <td>
+                    <form th:action="@{/admin/bookings/{id}/status(id=${b.id})}" method="post" class="d-inline">
+                        <select name="status" class="form-select form-select-sm d-inline-block w-auto" onchange="this.form.submit()">
+                            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}" th:selected="${status == b.status}"></option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

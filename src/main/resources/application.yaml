@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:h2:mem:igromaniadb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        # ЗАСТАВЛЯЕМ HIBERNATE СОХРАНЯТЬ РЕГИСТР БУКВ ИЗ JAVA-МОДЕЛЕЙ БЕЗ ПОДЧЕРКИВАНИЙ
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  thymeleaf:
+    cache: false
+
+  sql:
+    init:
+      mode: always
+      defer-datasource-initialization: true

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Бронирование</title>
+    <!-- Локальное подключение Bootstrap (для надежности в РФ) или оставьте CDN -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container my-5" style="max-width: 750px;">
+    <div class="card shadow p-4 bg-body">
+        <h2 class="mb-4 text-center">🎮 Оформление бронирования</h2>
+
+        <form th:action="@{/booking/create}" method="post">
+            <!-- Выбор типа бронирования -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Что вы хотите забронировать?</label>
+                <select name="bookingType" class="form-select" id="bookingType" onchange="toggleBookingFields()">
+                    <option value="GAME">Конкретную игру (зона определится автоматически)</option>
+                    <option value="ZONE">Игровую зону целиком (для компании / ивента)</option>
+                </select>
+            </div>
+
+            <!-- Динамический блок выбора игры -->
+            <div class="mb-3" id="gameSelectBlock">
+                <label class="form-label">Выберите игру из каталога</label>
+                <select name="gameId" class="form-select">
+                    <option th:each="game : ${games}"
+                            th:value="${game.id}"
+                            th:text="${game.title + ' [' + game.genre + '] (' + game.minAge + '+)'}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Динамический блок выбора зоны -->
+            <div class="mb-3 d-none" id="zoneSelectBlock">
+                <label class="form-label">Выберите игровую зону</label>
+                <select name="gameZoneId" class="form-select">
+                    <option th:each="zone : ${zones}"
+                            th:value="${zone.id}"
+                            th:text="${zone.name + ' — ' + zone.pricePerHour + ' ₽/час'}">
+                    </option>
+                </select>
+            </div>
+
+            <hr>
+
+            <!-- Блок компании / Группового ивента -->
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="isCompanyEvent" name="isCompanyEvent" onchange="document.getElementById('companyBlock').classList.toggle('d-none')">
+                <label class="form-check-input-label fw-bold" for="isCompanyEvent">👥 Бронирую для компании друзей (Корпоратив / Праздник)</label>
+            </div>
+
+            <div class="mb-3 d-none p-3 bg-body-tertiary rounded border" id="companyBlock">
+                <div class="mb-2">
+                    <label class="form-label small">Название вашей команды / События</label>
+                    <input type="text" name="companyName" class="form-control" placeholder="Например: День рождения Влада / Созвон без галстуков">
+                </div>
+                <div>
+                    <label class="form-label small">Ориентировочное количество человек</label>
+                    <input type="number" name="guestCount" class="form-control" min="1" value="5">
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Дата, время и длительность сессии -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Дата и время начала</label>
+                    <input type="datetime-local" name="startTime" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Продолжительность (в часах)</label>
+                    <input type="number" name="durationHours" class="form-control" min="1" max="24" value="2" required>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Меню Столовой / Кафетерия -->
+            <h5 class="mb-3">🍔 Добавить геймерские комбо и напитки (доставим в зону)</h5>
+
+            <div th:if="${#lists.isEmpty(menuItems)}" class="alert alert-sm alert-secondary py-2 small">
+                Кухня обновляет меню, заказ позиций будет доступен на месте.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(menuItems)}" class="row row-cols-1 row-cols-sm-2 g-2 mb-4">
+                <div th:each="item : ${menuItems}" class="col">
+                    <div class="p-2 border rounded d-flex justify-content-between align-items-center bg-body-secondary">
+                        <div>
+                            <span class="fw-bold d-block small" th:text="${item.name}"></span>
+                            <span class="text-muted small" th:text="${item.price + ' ₽'}"></span>
+                        </div>
+                        <!-- Количество привязывается к ID позиции -->
+                        <input type="number" th:name="${'menuItem_' + item.id}" class="form-control form-control-sm" style="width: 65px;" min="0" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fs-5">🚀 Завершить бронирование</button>
+        </form>
+    </div>
+</div>
+
+<!-- Переключатель отображения полей -->
+<script>
+    function toggleBookingFields() {
+        const type = document.getElementById('bookingType').value;
+        const gameBlock = document.getElementById('gameSelectBlock');
+        const zoneBlock = document.getElementById('zoneSelectBlock');
+
+        if(type === 'GAME') {
+            gameBlock.classList.remove('d-none');
+            zoneBlock.classList.add('d-none');
+        } else {
+            gameBlock.classList.add('d-none');
+            zoneBlock.classList.remove('d-none');
+        }
+    }
+</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

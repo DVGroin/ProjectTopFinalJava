@@ -1,0 +1,179 @@
+/* ==========================================================================
+   1. ПЕРЕМЕННЫЕ И СИСТЕМА ЦВЕТОВ (Сине-зеленый Sci-Fi стиль)
+   ========================================================================== */
+:root, [data-bs-theme="light"] {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #042f2e 100%);
+    --card-glass-bg: rgba(15, 23, 42, 0.65);
+    --card-glass-border: rgba(20, 184, 166, 0.2);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    /* Акцентные цвета */
+    --accent-cyan: #06b6d4;
+    --accent-mint: #10b981;
+    --accent-glow: rgba(16, 185, 129, 0.3);
+
+    /* Переопределение дефолтных цветов Bootstrap */
+    --bs-body-bg: #0b1329;
+    --bs-body-color: #f8fafc;
+    --bs-primary: #10b981;
+    --bs-primary-rgb: 16, 185, 129;
+}
+
+[data-bs-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #020617 0%, #022c22 100%);
+    --card-glass-bg: rgba(2, 6, 23, 0.8);
+    --card-glass-border: rgba(6, 182, 212, 0.25);
+    --text-main: #f1f5f9;
+    --text-muted: #64748b;
+    --accent-cyan: #22d3ee;
+    --accent-mint: #34d399;
+    --accent-glow: rgba(52, 211, 153, 0.4);
+}
+
+/* ==========================================================================
+   2. ГЛОБАЛЬНЫЕ СТИЛИ И ФОН Приложения
+   ========================================================================== */
+body {
+    background: var(--bg-gradient) !important;
+    background-attachment: fixed !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* Эффект плавного перехода тем */
+*, *::before, *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ==========================================================================
+   3. СОВРЕМЕННЫЙ СТЕКЛЯННЫЙ ИНТЕРФЕЙС (Glassmorphism)
+   ========================================================================== */
+.card, .p-4.bg-body-tertiary, .jumbotron, .form-signin class {
+    background: var(--card-glass-bg) !important;
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid var(--card-glass-border) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-radius: 16px !important;
+}
+
+/* Свечение карточек при наведении (эффект присутствия) */
+.card:hover {
+    border-color: var(--accent-mint) !important;
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: translateY(-2px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   4. КНОПКИ И ЭЛЕМЕНТЫ УПРАВЛЕНИЯ (Неоновый отклик)
+   ========================================================================== */
+.btn-primary {
+    background-color: var(--accent-mint) !important;
+    border-color: var(--accent-mint) !important;
+    color: #020617 !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-cyan) !important;
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+}
+
+.btn-outline-primary {
+    color: var(--accent-cyan) !important;
+    border-color: var(--accent-cyan) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--accent-cyan) !important;
+    color: #020617 !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+}
+
+/* Стилизация полей ввода форм */
+.form-control, .form-select {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--card-glass-border) !important;
+    color: var(--text-main) !important;
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.4) !important;
+}
+
+/* ==========================================================================
+   5. НАВИГАЦИЯ И ТАБЛИЦЫ
+   ========================================================================== */
+.navbar {
+    background: rgba(15, 23, 42, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--card-glass-border) !important;
+}
+
+.navbar-brand {
+    color: var(--accent-cyan) !important;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+}
+
+.nav-link:hover {
+    color: var(--accent-mint) !important;
+}
+
+/* Кастомные таблицы */
+.table {
+    color: var(--text-main) !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    background-color: rgba(20, 184, 166, 0.04) !important;
+    color: var(--text-main) !important;
+}
+
+.list-group-item {
+    background-color: transparent !important;
+    color: var(--text-main) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Баджи / Метки */
+.badge.bg-primary {
+    background-color: rgba(6, 182, 212, 0.2) !important;
+    color: var(--accent-cyan) !important;
+    border: 1px solid var(--accent-cyan);
+}
+
+.badge.bg-success {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    color: var(--accent-mint) !important;
+    border: 1px solid var(--accent-mint);
+}
+
+/* ==========================================================================
+   6. ИГРОВЫЕ ПАНЕЛИ И КАНВАС
+   ========================================================================== */
+#snakeCanvas {
+    border: 2px solid var(--accent-mint) !important;
+    box-shadow: 0 0 25px var(--accent-glow) !important;
+}
+
+.tic-box {
+    border: 2px solid var(--card-glass-border) !important;
+    background: rgba(15, 23, 42, 0.4) !important;
+}
+
+.tic-box:hover {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}

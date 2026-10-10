@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Змейка</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container my-5 text-center" style="max-width: 500px;">
+    <h3 class="fw-bold mb-3">🐍 Ретро-Змейка (Snake)</h3>
+    <div class="card p-3 shadow-sm bg-body align-items-center">
+        <canvas id="snakeCanvas" width="400" height="400" class="border rounded bg-dark mb-3"></canvas>
+        <button class="btn btn-outline-success w-100" onclick="resetSnake()">Сбросить счет</button>
+    </div>
+</div>
+<script src="/js/snake.js"></script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

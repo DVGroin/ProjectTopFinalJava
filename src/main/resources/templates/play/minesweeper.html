@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Сапер</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+    <style>
+        #minesweeper-board {
+            display: grid;
+            grid-template-columns: repeat(10, 35px);
+            grid-gap: 2px;
+            justify-content: center;
+        }
+        .cell {
+            width: 35px;
+            height: 35px;
+            background-color: #6c757d;
+            border: 1px solid #495057;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        .cell.revealed { background-color: var(--bs-secondary-bg); cursor: default; }
+        .cell.mine { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container my-5 text-center" style="max-width: 450px;">
+    <h3 class="fw-bold mb-3">💣 Сапер (Minesweeper)</h3>
+    <div class="card p-4 shadow-sm bg-body">
+        <div id="minesweeper-board" class="mb-4"></div>
+        <button class="btn btn-outline-primary" onclick="initMinesweeper()">Перезагрузить поле</button>
+    </div>
+</div>
+<script src="/js/minesweeper.js"></script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

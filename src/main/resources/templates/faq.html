@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | FAQ</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container my-5" style="max-width: 800px;">
+    <h2 class="mb-4 text-center">❓ Часто задаваемые вопросы (FAQ)</h2>
+
+    <div th:if="${#lists.isEmpty(faqs)}" class="alert alert-secondary text-center">
+        Раздел вопросов и ответов наполняется администрацией.
+    </div>
+
+    <div class="accordion" id="faqAccordion" th:unless="${#lists.isEmpty(faqs)}">
+        <div th:each="faq, iterStat : ${faqs}" class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse' + ${faq.id}" th:text="${faq.question}">
+                </button>
+            </h2>
+            <div th:id="'collapse' + ${faq.id}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" th:text="${faq.answer}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://jsdelivr.net"></script>
+</body>
+</html>

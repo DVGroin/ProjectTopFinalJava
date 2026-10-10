@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Меню столовой</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">🍔 Наше геймерское меню</h2>
+        <p class="text-muted">Вкусные перекусы и бодрящие напитки. Доставляем прямо к вашему игровому месту!</p>
+    </div>
+
+    <div th:if="${#lists.isEmpty(menuItems)}" class="alert alert-info text-center shadow-sm">
+        Меню столовой временно обновляется. Зайдите позже!
+    </div>
+
+    <div class="row g-4" th:unless="${#lists.isEmpty(menuItems)}">
+        <!-- Категория: Блюда и снеки -->
+        <div class="col-md-6">
+            <h4 class="border-bottom pb-2 mb-3 text-primary">🍕 Еда и Снеки</h4>
+            <div class="list-group list-group-flush">
+                <div th:each="item : ${menuItems}" th:if="${item.category.name() == 'FOOD'}" class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                    <div>
+                        <h6 class="mb-0 fw-bold" th:text="${item.name}"></h6>
+                        <small class="text-muted" th:text="${item.description}"></small>
+                    </div>
+                    <span class="badge bg-success fs-6" th:text="${item.price + ' ₽'}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Категория: Напитки -->
+        <div class="col-md-6">
+            <h4 class="border-bottom pb-2 mb-3 text-info">🥤 Напитки</h4>
+            <div class="list-group list-group-flush">
+                <div th:each="item : ${menuItems}" th:if="${item.category.name() == 'DRINK'}" class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                    <div>
+                        <h6 class="mb-0 fw-bold" th:text="${item.name}"></h6>
+                        <small class="text-muted" th:text="${item.description}"></small>
+                    </div>
+                    <span class="badge bg-success fs-6" th:text="${item.price + ' ₽'}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="/booking/new" class="btn btn-primary btn-lg shadow">Перейти к бронированию и заказать еду</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

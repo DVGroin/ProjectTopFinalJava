@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Регистрация</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body class="bg-body-secondary d-flex align-items-center py-4" style="min-height: 100vh;">
+
+<main class="form-signin m-auto w-100 px-3" style="max-width: 450px;">
+    <div class="card shadow p-4 bg-body">
+        <form th:action="@{/register}" th:object="${userDto}" method="post">
+            <h1 class="h3 mb-3 fw-normal text-center">📝 Регистрация</h1>
+
+            <div class="mb-3">
+                <label class="form-label small">Логин</label>
+                <input type="text" th:field="*{username}" class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{username}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small">Email</label>
+                <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{email}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small">Телефон</label>
+                <input type="text" th:field="*{phone}" class="form-control" placeholder="+7 (999) 000-00-00">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small">Пароль (минимум 6 символов)</label>
+                <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{password}"></div>
+            </div>
+
+            <button class="btn btn-success w-100 py-2 mb-3" type="submit">Зарегистрироваться</button>
+
+            <div class="text-center small">
+                Уже есть профиль? <a href="/login" class="text-decoration-none">Войти</a>
+            </div>
+            <div class="text-center mt-3 small">
+                <a href="/" class="text-muted">← На главную</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

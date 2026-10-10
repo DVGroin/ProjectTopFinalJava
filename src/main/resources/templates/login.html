@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Вход</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body class="bg-body-secondary d-flex align-items-center py-4" style="min-height: 100vh;">
+
+<main class="form-signin m-auto w-100 px-3" style="max-width: 400px;">
+    <div class="card shadow p-4 bg-body">
+        <form th:action="@{/login}" method="post">
+            <h1 class="h3 mb-3 fw-normal text-center">🔑 Вход в систему</h1>
+
+            <div th:if="${param.error}" class="alert alert-danger text-center small py-2">
+                Неверный логин или пароль!
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success text-center small py-2">
+                Вы успешно вышли из системы.
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Логин" required>
+                <label for="floatingInput">Логин</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Пароль" required>
+                <label for="floatingPassword">Пароль</label>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Войти</button>
+            <div class="text-center small">
+                Нет аккаунта? <a href="/register" class="text-decoration-none">Создать профиль</a>
+            </div>
+            <div class="text-center mt-3 small">
+                <a href="/" class="text-muted">← На главную</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

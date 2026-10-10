@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Игромания | Контакты</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <script src="/js/theme-toggle.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container my-5">
+    <div class="row g-5">
+        <div class="col-md-6" th:each="club : ${clubInfo}">
+            <h2 th:text="${club.title}">📍 Наш Клуб</h2>
+            <p class="text-muted" th:text="${club.subTitle}"></p>
+            <hr>
+            <p><strong>Адрес:</strong> <span th:text="${club.address}"></span></p>
+            <p><strong>Телефон:</strong> <span th:text="${club.phone}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${club.email}"></span></p>
+            <p><strong>Режим работы:</strong> <span th:text="${club.workHours}"></span></p>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm bg-body">
+                <h4 class="mb-3">✉️ Напишите нам</h4>
+
+                <div th:if="${successMessage}" class="alert alert-success small py-2" th:text="${successMessage}"></div>
+
+                <form th:action="@{/contacts/feedback}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label small">Ваше имя</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Ваш Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Сообщение / Жалоба / Отзыв</label>
+                        <textarea name="message" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Отправить сообщение</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
